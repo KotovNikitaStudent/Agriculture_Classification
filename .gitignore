@@ -127,3 +127,12 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# My files ignore
+
+logs/
+weight/
+*.log
+models/__pycache__/
+utils/__pycache__/
+utils/.DS_Store
