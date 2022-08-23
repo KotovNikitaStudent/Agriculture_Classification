@@ -34,13 +34,13 @@ Start testing the corresponding algorithm on the saved scales with the following
 python3 test.py
 ```
 For prepare dataset for training/testing neural network, your data folder must be introduce in the following view:
-`
+```
 Datafolder
 ├── class_name_1
 ├── class_name_2
 ├── class_name_3
 ...
-`
+```
 Then run `extract_patches.py`. There are you should changed parameters `ROOT_DIR`, `DATASET_DIR`, `PATCHES_DIR`, `PATCH_SIZE`, `STEP` to your parameters:
 ```console
 python3 extract_patches.py
