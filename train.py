@@ -113,7 +113,7 @@ def main():
         end_t = time.time()
         epoch_mins, epoch_secs = epoch_time(start_t, end_t)
 
-        logger.info(f"Epoch: {epoch + 1:02} | Epoch Time: {epoch_mins}m {epoch_secs}s | Train loss: {train_loss:.3f} |  Train Acc Top-1: {train_acc_1*100:6.2f}% | Train Acc Top-5: {train_acc_5*100:6.2f}% | Valid Loss: {valid_loss:.3f} | Valid Acc Top-1: {valid_acc_1*100:6.2f}% | Valid Acc Top-5: {valid_acc_5*100:6.2f}%")
+        logger.info(f"Epoch: {epoch + 1:02} | Epoch Time: {epoch_mins}m {epoch_secs}s | Train loss: {train_loss:.4f} |  Train Acc Top-1: {train_acc_1*100:6.2f}% | Train Acc Top-5: {train_acc_5*100:6.2f}% | Valid Loss: {valid_loss:.4f} | Valid Acc Top-1: {valid_acc_1*100:6.2f}% | Valid Acc Top-5: {valid_acc_5*100:6.2f}%")
         
         writer.close()
 
@@ -142,9 +142,9 @@ def train(model, iterator, optimizer, criterion, device, curr_ep):
     epoch_acc_1 /= len(iterator)
     epoch_acc_5 /= len(iterator)
 
-    writer.add_scalar('Train loss', epoch_loss, curr_ep)
-    writer.add_scalar('Train Acc Top-1', epoch_acc_1, curr_ep)
-    writer.add_scalar('Train Acc Top-5', epoch_acc_5, curr_ep)
+    writer.add_scalar('Train_loss', epoch_loss, curr_ep)
+    writer.add_scalar('Train_Acc_Top_1', epoch_acc_1, curr_ep)
+    writer.add_scalar('Train_Acc_Top_5', epoch_acc_5, curr_ep)
         
     return epoch_loss, epoch_acc_1, epoch_acc_5
 
@@ -171,9 +171,9 @@ def evaluate(model, iterator, criterion, device, curr_ep):
     epoch_acc_1 /= len(iterator)
     epoch_acc_5 /= len(iterator)
     
-    writer.add_scalar('Val loss', epoch_loss, curr_ep)
-    writer.add_scalar('Val Acc Top-1', epoch_acc_1, curr_ep)
-    writer.add_scalar('Val Acc Top-5', epoch_acc_5, curr_ep)
+    writer.add_scalar('Val_loss', epoch_loss, curr_ep)
+    writer.add_scalar('Val_Acc_Top_1', epoch_acc_1, curr_ep)
+    writer.add_scalar('Val_Acc_Top_5', epoch_acc_5, curr_ep)
 
     return epoch_loss, epoch_acc_1, epoch_acc_5
 

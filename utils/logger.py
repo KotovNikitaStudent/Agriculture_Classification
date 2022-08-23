@@ -15,7 +15,7 @@ logging.basicConfig(
     handlers=(
         logging.StreamHandler(sys.stdout),
         RotatingFileHandler(
-            "despeckling_images.log",
+            "Image_classification.log",
             mode="a",
             maxBytes=200 * 1024 * 1024,
             backupCount=2,
