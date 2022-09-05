@@ -84,9 +84,14 @@ def main():
     device = torch.cuda.set_device(DEVICE)
     device = torch.device(DEVICE)
 
-    model = mobilenet_v2(pretrained=True)
-    model._modules['classifier'][-1] = nn.Linear(model._modules['classifier'][-1].in_features, len(train_data.classes), bias=True)
+    from models.mobilenet import MobilenetV2
+    
+    model = MobilenetV2().get_model(n_out=len(train_data.classes))
     model = model.to(device)
+    
+    # model = mobilenet_v2(pretrained=True)
+    # model._modules['classifier'][-1] = nn.Linear(model._modules['classifier'][-1].in_features, len(train_data.classes), bias=True)
+    # model = model.to(device)
 
     loss_fn = nn.CrossEntropyLoss()
     loss_fn.to(device)
