@@ -12,7 +12,7 @@ from glob import glob
 from sklearn.metrics import classification_report
 
 
-DEVICE = 6
+DEVICES = '3,4'
 ROOT_DIR = "/raid/n.kotov1/Dataset_bpla_patches"
 RESULTS_DIR = "results"
 NET_NAME = "mobilenet_v2"
@@ -22,11 +22,8 @@ if not os.path.exists(os.path.join(RESULTS_DIR, NET_NAME)): os.makedirs(os.path.
 
 
 def main():
-    os.environ["CUDA_VISIBLE_DEVICES"] = '3,4'
+    os.environ["CUDA_VISIBLE_DEVICES"] = DEVICES
     device = torch.device("cuda")
-
-    # device = torch.cuda.set_device(DEVICE)
-    # device = torch.device(DEVICE)
     
     test_transform = transforms.Compose([
                            transforms.ToTensor(),

@@ -72,7 +72,8 @@ def extract_patches(im_dir: str, out_dir: str) -> None:
             for y in np.arange(0, img.shape[0] - PATCH_SIZE + 1, STEP):
                 name, ext = os.path.splitext(im)
                 im_slice = img[y:y+PATCH_SIZE, x:x+PATCH_SIZE]
-                destination = os.path.join(out_dir, os.path.join(im.split("/")[4], im.split("/")[5]), f"{name.split('/')[-1].split('.')[0]}_{x}_{y}{ext}")
+                destination = os.path.join(out_dir, os.path.join(im.split("/")[4], im.split("/")[5]), \
+                    f"{name.split('/')[-1].split('.')[0]}_{x}_{y}{ext}")
                 io.imsave(destination, im_slice)
                 print(f"[INFO][{datetime.datetime.now().strftime('%H:%M:%S')}]: patch has been saved to '{destination}'")
 

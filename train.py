@@ -20,7 +20,7 @@ from utils.logger import logger
 SEED = 43
 BATCH_SIZE = 32
 EPOCHS = 500
-DEVICE = 0
+DEVICES = '3,4'
 LR = 1e-4
 STEP_SAVE_EPOCH = 50
 ROOT_DIR = "/raid/n.kotov1/Dataset_bpla_patches"
@@ -81,17 +81,13 @@ def main():
         num_workers=4
     )
 
-    device = torch.cuda.set_device(DEVICE)
-    device = torch.device(DEVICE)
+    os.environ["CUDA_VISIBLE_DEVICES"] = DEVICES
+    device = torch.device("cuda")
 
     from models.mobilenet import MobilenetV2
     
     model = MobilenetV2().get_model(n_out=len(train_data.classes))
     model = model.to(device)
-    
-    # model = mobilenet_v2(pretrained=True)
-    # model._modules['classifier'][-1] = nn.Linear(model._modules['classifier'][-1].in_features, len(train_data.classes), bias=True)
-    # model = model.to(device)
 
     loss_fn = nn.CrossEntropyLoss()
     loss_fn.to(device)
@@ -120,7 +116,9 @@ def main():
         end_t = time.time()
         epoch_mins, epoch_secs = epoch_time(start_t, end_t)
 
-        logger.info(f"Epoch: {epoch + 1:02} | Epoch Time: {epoch_mins}m {epoch_secs}s | Train loss: {train_loss:.4f} |  Train Acc Top-1: {train_acc_1*100:6.2f}% | Train Acc Top-5: {train_acc_5*100:6.2f}% | Valid Loss: {valid_loss:.4f} | Valid Acc Top-1: {valid_acc_1*100:6.2f}% | Valid Acc Top-5: {valid_acc_5*100:6.2f}%")
+        logger.info(f"Epoch: {epoch + 1:02} | Epoch Time: {epoch_mins}m {epoch_secs}s | Train loss: {train_loss:.4f} \
+            |  Train Acc Top-1: {train_acc_1*100:6.2f}% | Train Acc Top-5: {train_acc_5*100:6.2f}% | Valid Loss: {valid_loss:.4f} \
+                | Valid Acc Top-1: {valid_acc_1*100:6.2f}% | Valid Acc Top-5: {valid_acc_5*100:6.2f}%")
         
         writer.close()
 
