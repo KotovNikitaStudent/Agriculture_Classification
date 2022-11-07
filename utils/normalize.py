@@ -1,3 +1,4 @@
+""" Normalization functions """
 import os
 import torch
 

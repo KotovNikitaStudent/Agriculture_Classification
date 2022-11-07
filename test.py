@@ -1,3 +1,4 @@
+""" Script for testing classificator """
 import torch
 from torchvision.models import mobilenet_v2
 import torch.nn.functional as F
@@ -11,6 +12,8 @@ from tqdm import tqdm
 from glob import glob
 from sklearn.metrics import classification_report
 
+from models.mobilenet import MobilenetV2
+
 
 DEVICES = '3,4'
 ROOT_DIR = "/raid/n.kotov1/Dataset_bpla_patches"
@@ -18,10 +21,12 @@ RESULTS_DIR = "results"
 NET_NAME = "mobilenet_v2"
 WEIGHT_DIR = "weight"
 
-if not os.path.exists(os.path.join(RESULTS_DIR, NET_NAME)): os.makedirs(os.path.join(RESULTS_DIR, NET_NAME))
+if not os.path.exists(os.path.join(RESULTS_DIR, NET_NAME)):
+    os.makedirs(os.path.join(RESULTS_DIR, NET_NAME))
 
 
 def main():
+    """ Main function """
     os.environ["CUDA_VISIBLE_DEVICES"] = DEVICES
     device = torch.device("cuda")
     
@@ -42,19 +47,10 @@ def main():
     )
 
     all_weights = sorted(glob(os.path.join(WEIGHT_DIR, NET_NAME, '*.pth'), recursive=True))
-
-    from models.mobilenet import MobilenetV2
     
     for w in tqdm(all_weights, total=len(all_weights)):
         model = MobilenetV2().get_model(n_out=len(test_data.classes), weight=w)
         model.to(device)
-        
-        # model = mobilenet_v2(pretrained=True)
-        # model._modules['classifier'][-1] = nn.Linear(model._modules['classifier'][-1].in_features, len(test_data.classes), bias=True)
-        # model.load_state_dict(torch.load(w))
-        # model = nn.DataParallel(model)
-        # model = model.to(device)
-        
         images, labels, probs = test(model, device, test_loader)
         pred_labels = torch.argmax(probs, 1)
 
@@ -64,6 +60,7 @@ def main():
 
 
 def test(model, device, loader):
+    """ Test function """
     model.eval()
     
     images = []

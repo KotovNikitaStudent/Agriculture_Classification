@@ -15,6 +15,7 @@ import time
 
 from utils.metrics import calculate_topk_accuracy, epoch_time
 from utils.logger import logger
+from models.mobilenet import MobilenetV2
 
 
 SEED = 43
@@ -29,10 +30,14 @@ WEIGHT_DIR = "weight"
 IMAGE_SIZE = 512
 NET_NAME = "mobilenet_v2"
 
-if not os.path.exists(os.path.join(LOGS_DIR, NET_NAME)): os.makedirs(os.path.join(LOGS_DIR, NET_NAME))
-if not os.path.exists(WEIGHT_DIR): os.makedirs(WEIGHT_DIR)
-if not os.path.exists(os.path.join(WEIGHT_DIR, NET_NAME)): os.makedirs(os.path.join(WEIGHT_DIR, NET_NAME))
-
+if not os.path.exists(os.path.join(LOGS_DIR, NET_NAME)):
+    os.makedirs(os.path.join(LOGS_DIR, NET_NAME))
+    
+if not os.path.exists(WEIGHT_DIR):
+    os.makedirs(WEIGHT_DIR)
+    
+if not os.path.exists(os.path.join(WEIGHT_DIR, NET_NAME)):
+    os.makedirs(os.path.join(WEIGHT_DIR, NET_NAME))
 
 writer = SummaryWriter(os.path.join(LOGS_DIR, NET_NAME))
 
@@ -83,8 +88,6 @@ def main():
 
     os.environ["CUDA_VISIBLE_DEVICES"] = DEVICES
     device = torch.device("cuda")
-
-    from models.mobilenet import MobilenetV2
     
     model = MobilenetV2().get_model(n_out=len(train_data.classes))
     model = model.to(device)

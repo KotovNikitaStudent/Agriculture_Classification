@@ -1,3 +1,4 @@
+""" implementation of MobileNetV2 """
 from abstract_model import AbstractModel
 
 from torchvision.models import mobilenet_v2
